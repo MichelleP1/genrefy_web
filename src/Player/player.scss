@@ -1,0 +1,54 @@
+.main {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
+.genre {
+  font-size: 3rem;
+  flex: 100%;
+  align-self: center;
+}
+
+.playlist {
+  flex: 100%;
+  align-self: center;
+}
+
+.track {
+  flex: 1 1 100%;
+  align-self: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.album-image {
+  align-self: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.player-controls {
+}
+
+.genre-playlist-controls {
+}
+
+.btn-spotify {
+  background-color: white;
+  border-radius: 28px;
+  border: 1px solid white;
+  display: inline-block;
+  cursor: pointer;
+  color: black;
+  font-family: Arial;
+  font-size: 17px;
+  padding: 16px 31px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #2f6627;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
