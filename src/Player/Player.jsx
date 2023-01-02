@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { genres } from "../genres";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { Inactive } from "./Inactive";
 import { Button } from "./Button";
 import axios from "axios";
+import { LoadingSpinner } from "./LoadingSpinner/LoadingSpinner";
 import "./player.scss";
-import spinner from "./loading-spinner.gif";
 
 const track = {
   name: "",
@@ -21,14 +21,15 @@ function Player(props) {
   const [active, setActive] = useState(true);
   const [player, setPlayer] = useState(undefined);
   const [currentTrack, setCurrentTrack] = useState(track);
-  const [deviceID, setDeviceID] = useState("");
   const [genre, setGenre] = useState("");
   const [playlist, setPlaylist] = useState("");
   const [playlists, setPlaylists] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const deviceID = useRef("");
+  const position = useRef(0);
+  const currentTrackName = useRef("");
   const urlScript = "https://sdk.scdn.co/spotify-player.js";
   const urlPrefix = "https://api.spotify.com/v1/";
-  const urlPlayer = `${urlPrefix}me/player/play?device_id=${deviceID}`;
   const headers = {
     Authorization: "Bearer " + token,
     Accept: "application/json",
@@ -38,10 +39,6 @@ function Player(props) {
   useEffect(() => {
     setSpotifyPlayer();
   }, []);
-
-  useEffect(() => {
-    deviceID && handleChangeGenre();
-  }, [deviceID]);
 
   const setSpotifyPlayer = () => {
     const script = document.createElement("script");
@@ -60,14 +57,23 @@ function Player(props) {
       setPlayer(player);
 
       player.addListener("ready", ({ device_id }) => {
-        setDeviceID(device_id);
+        deviceID.current = device_id;
+        handleChangeGenre();
       });
 
       player.addListener("player_state_changed", (state) => {
         if (!state) return;
+        if (
+          state.track_window.current_track.name !== currentTrackName.current
+        ) {
+          position.current = 0;
+        }
         setLoaded(true);
         setCurrentTrack(state.track_window.current_track);
+        currentTrackName.current = state.track_window.current_track.name;
+        console.log(currentTrackName.current);
         setPaused(state.paused);
+
         player.getCurrentState().then((state) => {
           !state ? setActive(false) : setActive(true);
         });
@@ -89,10 +95,10 @@ function Player(props) {
   };
 
   const getNewGenrePlaylist = async (genre) => {
-    const playlistReturn = await querySpotify(
+    const genrePlaylist = await querySpotify(
       `${urlPrefix}search?q=sound of ${genre}&type=playlist&limit=10`
     );
-    const playlists = playlistReturn?.data?.playlists?.items;
+    const playlists = genrePlaylist?.data?.playlists?.items;
     setPlaylists(playlists);
     setGenre(genre);
     return playlists[0];
@@ -104,18 +110,19 @@ function Player(props) {
   };
 
   const handleChangeGenre = async () => {
-    const genre = genres[Math.floor(Math.random() * genres.length)];
-    handleChangePlaylist(null, genre);
+    const randomGenre = genres[Math.floor(Math.random() * genres.length)];
+    handleChangePlaylist(null, randomGenre);
   };
 
-  const handleChangePlaylist = async (_, genre = null) => {
-    const newPlaylist = genre
-      ? await getNewGenrePlaylist(genre)
+  const handleChangePlaylist = async (_, newGenre = null) => {
+    const newPlaylist = newGenre
+      ? await getNewGenrePlaylist(newGenre)
       : getCurrentGenreNextPlaylist();
     setPlaylist(newPlaylist);
     const playlistReturn = await querySpotify(newPlaylist.tracks.href);
     const tracks = playlistReturn.data.items;
     const uris = tracks.map((track) => `spotify:track:${track.track.id}`);
+    const urlPlayer = `${urlPrefix}me/player/play?device_id=${deviceID.current}`;
     axios.put(urlPlayer, { uris }, { headers });
   };
 
@@ -131,6 +138,17 @@ function Player(props) {
     player.previousTrack();
   };
 
+  const handleRewind = () => {
+    const positionChange = position.current - 15 * 1000;
+    position.current = positionChange >= 0 ? positionChange : 0;
+    player.seek(position.current);
+  };
+
+  const handleFastForward = () => {
+    position.current += 15 * 1000;
+    player.seek(position.current);
+  };
+
   return active ? (
     loaded ? (
       <div className="main">
@@ -138,16 +156,18 @@ function Player(props) {
         <h5 className="playlist">{playlist.name}</h5>
         <img className="album-image" src={currentTrack.album.images[0].url} />
         <h5 className="track">
-          {currentTrack.name} - {currentTrack.artists[0].name}
+          {currentTrackName.current} - {currentTrack.artists[0].name}
         </h5>
         <div>
           <div className="player-controls">
+            <Button title="<<<" onClick={handleRewind} />
             <Button title="<<" onClick={handlePrevious} />
             <Button
               title={paused ? <FaPlay /> : <FaPause />}
               onClick={handlePlay}
             />
             <Button title=">>" onClick={handleNext} />
+            <Button title=">>>" onClick={handleFastForward} />
           </div>
           <div className="genre-playlist-controls">
             <Button title="Change Genre" onClick={handleChangeGenre} />
@@ -156,7 +176,7 @@ function Player(props) {
         </div>
       </div>
     ) : (
-      <img src={spinner} alt="loading..." />
+      <LoadingSpinner />
     )
   ) : (
     <Inactive />
