@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { genres } from "../genres";
-import { FaPlay, FaPause } from "react-icons/fa";
+import {
+  FaPlay,
+  FaPause,
+  FaStepBackward,
+  FaFastBackward,
+  FaStepForward,
+  FaFastForward,
+} from "react-icons/fa";
 import { Inactive } from "./Inactive";
 import { Button } from "./Button";
 import axios from "axios";
@@ -19,15 +26,15 @@ function Player(props) {
   const { token, setToken } = props;
   const [paused, setPaused] = useState(false);
   const [active, setActive] = useState(true);
-  const [player, setPlayer] = useState(undefined);
+  // const [player, setPlayer] = useState(undefined);
   const [currentTrack, setCurrentTrack] = useState(track);
   const [genre, setGenre] = useState("");
   const [playlist, setPlaylist] = useState("");
   const [playlists, setPlaylists] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const deviceID = useRef("");
+  const trackName = useRef("");
   const position = useRef(0);
-  const currentTrackName = useRef("");
   const urlScript = "https://sdk.scdn.co/spotify-player.js";
   const urlPrefix = "https://api.spotify.com/v1/";
   const headers = {
@@ -35,9 +42,24 @@ function Player(props) {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
+  const player = useRef(null);
 
   useEffect(() => {
     setSpotifyPlayer();
+
+    return () => {
+      console.log("leaving");
+      console.log(player.current);
+      player.current.disconnect();
+      setActive(false);
+      setCurrentTrack(track);
+      setGenre("");
+      setPlaylist("");
+      setPlaylists([]);
+      setLoaded(false);
+      trackName.current = "";
+      // document.body.removeChildren();
+    };
   }, []);
 
   const setSpotifyPlayer = () => {
@@ -47,40 +69,52 @@ function Player(props) {
     document.body.appendChild(script);
 
     window.onSpotifyWebPlaybackSDKReady = async () => {
-      const player = new window.Spotify.Player({
+      player.current = new window.Spotify.Player({
         name: "Web Playback SDK",
         getOAuthToken: (cb) => {
           cb(token);
         },
         volume: 0.5,
       });
-      setPlayer(player);
+      // setPlayer(player);
+      console.log(player.current);
 
-      player.addListener("ready", ({ device_id }) => {
+      player.current.addListener("ready", ({ device_id }) => {
+        console.log("ready");
+
         deviceID.current = device_id;
         handleChangeGenre();
       });
 
-      player.addListener("player_state_changed", (state) => {
-        if (!state) return;
-        if (
-          state.track_window.current_track.name !== currentTrackName.current
-        ) {
-          position.current = 0;
-        }
-        setLoaded(true);
-        setCurrentTrack(state.track_window.current_track);
-        currentTrackName.current = state.track_window.current_track.name;
-        console.log(currentTrackName.current);
-        setPaused(state.paused);
+      player.current.addListener("not_ready", ({ device_id }) => {
+        console.log("Device ID has gone offline");
 
-        player.getCurrentState().then((state) => {
+        console.log("Device ID has gone offline", device_id);
+      });
+
+      player.current.addListener("player_state_changed", (state) => {
+        console.log("player_state_changed");
+
+        if (!state) return;
+
+        const track = state.track_window.current_track;
+        if (track.name !== trackName.current) position.current = 0;
+        trackName.current = track.name;
+        setCurrentTrack(track);
+        setPaused(state.paused);
+        setLoaded(true);
+
+        player.current.getCurrentState().then((state) => {
           !state ? setActive(false) : setActive(true);
         });
       });
 
-      const connection = await player.connect();
+      const connection = await player.current.connect();
+      // player.disconnect();
+
       if (!connection) {
+        console.log(player.current);
+
         setToken("");
         alert("Your session has expired - please sign in again");
       }
@@ -127,26 +161,38 @@ function Player(props) {
   };
 
   const handlePlay = () => {
-    player.togglePlay();
+    player.current.togglePlay();
   };
 
   const handleNext = () => {
-    player.nextTrack();
+    player.current.nextTrack();
   };
 
   const handlePrevious = () => {
-    player.previousTrack();
+    player.current.previousTrack();
   };
 
   const handleRewind = () => {
     const positionChange = position.current - 15 * 1000;
     position.current = positionChange >= 0 ? positionChange : 0;
-    player.seek(position.current);
+    player.current.seek(position.current);
   };
 
   const handleFastForward = () => {
     position.current += 15 * 1000;
-    player.seek(position.current);
+    player.current.seek(position.current);
+  };
+
+  const handleSaveTrack = () => {
+    axios.put(`${urlPrefix}me/tracks?ids=${currentTrack.id}`, {}, { headers });
+  };
+
+  const handleFollowPlaylist = () => {
+    axios.put(
+      `${urlPrefix}playlists/${playlist.id}/followers`,
+      {},
+      { headers }
+    );
   };
 
   return active ? (
@@ -156,22 +202,26 @@ function Player(props) {
         <h5 className="playlist">{playlist.name}</h5>
         <img className="album-image" src={currentTrack.album.images[0].url} />
         <h5 className="track">
-          {currentTrackName.current} - {currentTrack.artists[0].name}
+          {currentTrack.name} - {currentTrack.artists[0].name}
         </h5>
         <div>
           <div className="player-controls">
-            <Button title="<<<" onClick={handleRewind} />
-            <Button title="<<" onClick={handlePrevious} />
+            <Button title={<FaFastBackward />} onClick={handleRewind} />
+            <Button title={<FaStepBackward />} onClick={handlePrevious} />
             <Button
               title={paused ? <FaPlay /> : <FaPause />}
               onClick={handlePlay}
             />
-            <Button title=">>" onClick={handleNext} />
-            <Button title=">>>" onClick={handleFastForward} />
+            <Button title={<FaStepForward />} onClick={handleNext} />
+            <Button title={<FaFastForward />} onClick={handleFastForward} />
           </div>
           <div className="genre-playlist-controls">
             <Button title="Change Genre" onClick={handleChangeGenre} />
             <Button title="Change Playlist" onClick={handleChangePlaylist} />
+          </div>
+          <div className="like-follow-controls">
+            <Button title="Like" onClick={handleSaveTrack} />
+            <Button title="Follow" onClick={handleFollowPlaylist} />
           </div>
         </div>
       </div>

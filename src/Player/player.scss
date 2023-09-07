@@ -1,37 +1,61 @@
+body > #root > div {
+  height: 100vh;
+  font-size: 100%;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
+}
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
 .main {
-  height: 30px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  row-gap: 10px;
+  justify-content: stretch;
 }
 
 .genre {
-  font-size: 3rem;
-  flex: 100%;
-  align-self: center;
+  // flex: 2;
+  font-size: 1.75em;
 }
 
 .playlist {
-  flex: 100%;
-  align-self: center;
-}
-
-.track {
-  flex: 1 1 100%;
-  align-self: center;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  font-size: 1.25em;
 }
 
 .album-image {
-  align-self: center;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  // flex: 1;
+  aspect-ratio: 1 / 1;
+  // min-width: 30%;
+  // height: 70%;
+  min-width: 25%;
+  max-width: 90%;
+  // width: 90%;
+
+  // position: relative;
+  // width: 20%;
+}
+
+.track {
+  font-size: 1.25em;
 }
 
 .player-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  min-width: 25%;
+  max-width: 90%;
 }
 
 .genre-playlist-controls {

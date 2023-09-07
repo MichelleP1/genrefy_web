@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Player from "./Player/Player";
-import Browse from "./Browse";
+import Browse from "./Player/Browse";
 import Login from "./Login";
+import Main from "./Main";
 import "./App.scss";
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
     setToken(access_token);
   };
 
-  return token ? <Player token={token} setToken={setToken} /> : <Login />;
+  // return token ? <Player token={token} setToken={setToken} /> : <Login />;
+  return token ? <Main token={token} setToken={setToken} /> : <Login />;
 }
 
 export default App;

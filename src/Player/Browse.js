@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { genres } from "./genres";
+import { genres } from "../genres";
 import axios from "axios";
 
-const track = {
-  name: "",
-  album: {
-    images: [{ url: "" }],
-  },
-  artists: [{ name: "" }],
-};
-
-function Player(props) {
+function Browse(props) {
   const genresArray = genres.map((data) => {
     return <p>{data}</p>;
   });
@@ -22,4 +14,4 @@ function Player(props) {
   );
 }
 
-export default Player;
+export default Browse;
