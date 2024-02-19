@@ -13,6 +13,7 @@ import { Button } from "./Button";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner/LoadingSpinner";
 import "./player.scss";
+import Browse from "../Browse/browse";
 
 const track = {
   name: "",
@@ -26,7 +27,6 @@ function Player(props) {
   const { token, setToken } = props;
   const [paused, setPaused] = useState(false);
   const [active, setActive] = useState(true);
-  // const [player, setPlayer] = useState(undefined);
   const [currentTrack, setCurrentTrack] = useState(track);
   const [genre, setGenre] = useState("");
   const [playlist, setPlaylist] = useState("");
@@ -198,6 +198,7 @@ function Player(props) {
   return active ? (
     loaded ? (
       <div className="main">
+        <Browse></Browse>
         <h3 className="genre">{genre}</h3>
         <h5 className="playlist">{playlist.name}</h5>
         <img className="album-image" src={currentTrack.album.images[0].url} />
