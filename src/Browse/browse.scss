@@ -1,8 +1,9 @@
 .container {
   position: relative;
   display: inline-block;
+  height: 100vh;
 }
-.button {
+.dropdown-button {
   padding: 0;
   width: 50px;
   border: 0;
@@ -28,11 +29,17 @@ ul {
   padding: 0;
   margin: 0;
 }
+
 li {
   padding: 8px 12px;
+  color: white;
+  background-color: black;
 }
 
 li:hover {
-  background-color: rgba(0, 0, 0, 0.14);
+  // background-color: rgba(0, 0, 0, 0.14);
+  background-color: white;
+  color: black;
+
   cursor: pointer;
 }

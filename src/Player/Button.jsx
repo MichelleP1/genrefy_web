@@ -1,8 +1,7 @@
-export function Button(props) {
-  const myClass = `btn-spotify button ${props.class}`;
+export const Button = ({ onClick, title }) => {
   return (
-    <button className={myClass} onClick={props.onClick}>
-      {props.title}
+    <button className="btn-spotify button" onClick={onClick}>
+      {title}
     </button>
   );
-}
+};

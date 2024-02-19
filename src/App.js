@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Player from "./Player/Player";
-import Browse from "./Player/Browse";
 import Login from "./Login";
 import Main from "./Main";
 import "./App.scss";

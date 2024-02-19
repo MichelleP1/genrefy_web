@@ -58,7 +58,6 @@ function Player(props) {
       setPlaylists([]);
       setLoaded(false);
       trackName.current = "";
-      // document.body.removeChildren();
     };
   }, []);
 
@@ -197,35 +196,37 @@ function Player(props) {
 
   return active ? (
     loaded ? (
-      <div className="main">
-        <Browse></Browse>
-        <h3 className="genre">{genre}</h3>
-        <h5 className="playlist">{playlist.name}</h5>
-        <img className="album-image" src={currentTrack.album.images[0].url} />
-        <h5 className="track">
-          {currentTrack.name} - {currentTrack.artists[0].name}
-        </h5>
-        <div>
-          <div className="player-controls">
-            <Button title={<FaFastBackward />} onClick={handleRewind} />
-            <Button title={<FaStepBackward />} onClick={handlePrevious} />
-            <Button
-              title={paused ? <FaPlay /> : <FaPause />}
-              onClick={handlePlay}
-            />
-            <Button title={<FaStepForward />} onClick={handleNext} />
-            <Button title={<FaFastForward />} onClick={handleFastForward} />
-          </div>
-          <div className="genre-playlist-controls">
-            <Button title="Change Genre" onClick={handleChangeGenre} />
-            <Button title="Change Playlist" onClick={handleChangePlaylist} />
-          </div>
-          <div className="like-follow-controls">
-            <Button title="Like" onClick={handleSaveTrack} />
-            <Button title="Follow" onClick={handleFollowPlaylist} />
+      <>
+        <div className="main">
+          <Browse onChangeGenre={handleChangePlaylist}></Browse>
+          <h3 className="genre">{genre}</h3>
+          <h5 className="playlist">{playlist.name}</h5>
+          <img className="album-image" src={currentTrack.album.images[0].url} />
+          <h5 className="track">
+            {currentTrack.name} - {currentTrack.artists[0].name}
+          </h5>
+          <div>
+            <div className="player-controls">
+              <Button title={<FaFastBackward />} onClick={handleRewind} />
+              <Button title={<FaStepBackward />} onClick={handlePrevious} />
+              <Button
+                title={paused ? <FaPlay /> : <FaPause />}
+                onClick={handlePlay}
+              />
+              <Button title={<FaStepForward />} onClick={handleNext} />
+              <Button title={<FaFastForward />} onClick={handleFastForward} />
+            </div>
+            <div className="genre-playlist-controls">
+              <Button title="Change Genre" onClick={handleChangeGenre} />
+              <Button title="Change Playlist" onClick={handleChangePlaylist} />
+            </div>
+            <div className="like-follow-controls">
+              <Button title="Like" onClick={handleSaveTrack} />
+              <Button title="Follow" onClick={handleFollowPlaylist} />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     ) : (
       <LoadingSpinner />
     )
