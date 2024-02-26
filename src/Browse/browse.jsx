@@ -1,39 +1,31 @@
 import React, { useState, useEffect } from "react";
 import "./browse.scss";
 import { genres } from "../genres";
+import Autocomplete from "@mui/material/Autocomplete";
+import { TextField } from "@mui/material";
 
 function Browse({ onChangeGenre }) {
-  const [showDropDown, setShowDropdown] = useState(false);
+  //onChangeGenre(null, genre)}
+  const [value, setValue] = useState(genres[0]);
 
-  const toggleDropDown = () => {
-    setShowDropdown(!showDropDown);
+  const setGenreValue = (event, newValue) => {
+    setValue(newValue);
+    onChangeGenre(null, newValue);
   };
 
-  const genresArray = genres.map((genre) => {
-    return (
-      <li key={genre} onClick={() => onChangeGenre(null, genre)}>
-        {genre}
-      </li>
-    );
-  });
-
   return (
-    <div className="App">
-      <div className="container">
-        <button
-          type="button"
-          className="dropdown-button"
-          onClick={toggleDropDown}
-        >
-          ☰
-        </button>
-        {showDropDown && (
-          <div className="dropdown">
-            <ul>{genresArray}</ul>
-          </div>
-        )}
-      </div>
-    </div>
+    <Autocomplete
+      id="combo-box-demo"
+      value={value}
+      onChange={(event, newValue) => {
+        setGenreValue(event, newValue);
+        // setValue(newValue);
+      }}
+      disableClearable
+      options={genres}
+      sx={{ width: 300 }}
+      renderInput={(params) => <TextField {...params} label="Genres" />}
+    />
   );
 }
 
