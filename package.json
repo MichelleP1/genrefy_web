@@ -20,7 +20,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server",
-    "dev": "run-p server start"
+    "dev": "run-p server start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -37,8 +39,10 @@
   "devDependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "gh-pages": "^6.1.1",
     "http-proxy-middleware": "^2.0.0",
     "npm-run-all": "^4.1.5",
     "request": "^2.88.2"
-  }
+  },
+  "homepage": "https://michellep1.github.io/genrefy_web/"
 }

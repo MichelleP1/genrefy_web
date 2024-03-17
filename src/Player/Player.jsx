@@ -154,7 +154,7 @@ function Player(props) {
     setPlaylist(newPlaylist);
     const playlistReturn = await querySpotify(newPlaylist.tracks.href);
     const tracks = playlistReturn.data.items;
-    const uris = tracks.map((track) => `spotify:track:${track.track.id}`);
+    const uris = tracks.map((track) => `spotify:track:${track?.track?.id}`);
     const urlPlayer = `${urlPrefix}me/player/play?device_id=${deviceID.current}`;
     axios.put(urlPlayer, { uris }, { headers });
   };

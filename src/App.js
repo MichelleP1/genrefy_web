@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Login from "./Login";
-import Main from "./Main";
+import Player from "./Player/Player";
 import "./App.scss";
 
 function App() {
@@ -16,14 +16,11 @@ function App() {
     setToken(access_token);
   };
 
-  // return token ? <Player token={token} setToken={setToken} /> : <Login />;
-  return token ? <Main token={token} setToken={setToken} /> : <Login />;
+  return (
+    <div className="container">
+      {token ? <Player token={token} setToken={setToken} /> : <Login />}
+    </div>
+  );
 }
 
 export default App;
-
-// Funkgerät
-// Kosmodrom
-// k forest
-// canadian contempary rnb
-// The Sound of Sacramento Indie
