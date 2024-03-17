@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/genrefy_web/static/css/main.bffe74d9.chunk.css",
-    "main.js": "/genrefy_web/static/js/main.9783139a.chunk.js",
-    "main.js.map": "/genrefy_web/static/js/main.9783139a.chunk.js.map",
-    "runtime-main.js": "/genrefy_web/static/js/runtime-main.2b0b0691.js",
-    "runtime-main.js.map": "/genrefy_web/static/js/runtime-main.2b0b0691.js.map",
-    "static/js/2.89dfd5b1.chunk.js": "/genrefy_web/static/js/2.89dfd5b1.chunk.js",
-    "static/js/2.89dfd5b1.chunk.js.map": "/genrefy_web/static/js/2.89dfd5b1.chunk.js.map",
-    "index.html": "/genrefy_web/index.html",
-    "static/css/main.bffe74d9.chunk.css.map": "/genrefy_web/static/css/main.bffe74d9.chunk.css.map",
-    "static/js/2.89dfd5b1.chunk.js.LICENSE.txt": "/genrefy_web/static/js/2.89dfd5b1.chunk.js.LICENSE.txt",
-    "static/media/loading-spinner.aa65f1d1.gif": "/genrefy_web/static/media/loading-spinner.aa65f1d1.gif"
+    "main.css": "C:/Program Files/Git/genrefy_web/static/css/main.bffe74d9.chunk.css",
+    "main.js": "C:/Program Files/Git/genrefy_web/static/js/main.9783139a.chunk.js",
+    "main.js.map": "C:/Program Files/Git/genrefy_web/static/js/main.9783139a.chunk.js.map",
+    "runtime-main.js": "C:/Program Files/Git/genrefy_web/static/js/runtime-main.986a250e.js",
+    "runtime-main.js.map": "C:/Program Files/Git/genrefy_web/static/js/runtime-main.986a250e.js.map",
+    "static/js/2.89dfd5b1.chunk.js": "C:/Program Files/Git/genrefy_web/static/js/2.89dfd5b1.chunk.js",
+    "static/js/2.89dfd5b1.chunk.js.map": "C:/Program Files/Git/genrefy_web/static/js/2.89dfd5b1.chunk.js.map",
+    "index.html": "C:/Program Files/Git/genrefy_web/index.html",
+    "static/css/main.bffe74d9.chunk.css.map": "C:/Program Files/Git/genrefy_web/static/css/main.bffe74d9.chunk.css.map",
+    "static/js/2.89dfd5b1.chunk.js.LICENSE.txt": "C:/Program Files/Git/genrefy_web/static/js/2.89dfd5b1.chunk.js.LICENSE.txt",
+    "static/media/loading-spinner.aa65f1d1.gif": "C:/Program Files/Git/genrefy_web/static/media/loading-spinner.aa65f1d1.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.2b0b0691.js",
+    "static/js/runtime-main.986a250e.js",
     "static/js/2.89dfd5b1.chunk.js",
     "static/css/main.bffe74d9.chunk.css",
     "static/js/main.9783139a.chunk.js"
