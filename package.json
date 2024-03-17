@@ -23,7 +23,7 @@
     "eject": "react-scripts eject",
     "server": "node server",
     "dev": "run-p server start",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "npm install && npm run build"
   },
   "browserslist": {
     "production": [
