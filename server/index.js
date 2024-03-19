@@ -81,8 +81,8 @@ app.get("/auth/token", (req, res) => {
   res.json({ access_token: access_token });
 });
 
-app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Listening at ${port}`);
 });
 
 // app.use(express.static(path.join(__dirname, "../build")));
