@@ -46,7 +46,6 @@
     "request": "^2.88.2"
   },
   "homepage": "https://michellep1.github.io/genrefy_web",
-  "proxy": "http://localhost:5000",
   "description": "npm run server\r npm run start\r npm run build\r npm run deploy",
   "main": "format.js",
   "keywords": [],

@@ -1,9 +1,9 @@
-const path = require("path");
 const express = require("express");
+const path = require("path");
 const request = require("request");
 const dotenv = require("dotenv");
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 global.access_token = "";
 
@@ -82,11 +82,12 @@ app.get("/auth/token", (req, res) => {
   res.json({ access_token: access_token });
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+app.get("*", function (req, res) {
+  const index = path.join(__dirname, "build", "index.html");
+  res.sendFile(index);
 });
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(port, () => {
   console.log(`Listening at ${port}`);
 });
 
