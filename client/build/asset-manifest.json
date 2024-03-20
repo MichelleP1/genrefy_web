@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/genrefy_web/static/css/main.26908df8.css",
+    "main.js": "/genrefy_web/static/js/main.03841aba.js",
+    "static/media/loading-spinner.gif": "/genrefy_web/static/media/loading-spinner.aa65f1d15e11f483f42a.gif",
+    "index.html": "/genrefy_web/index.html",
+    "main.26908df8.css.map": "/genrefy_web/static/css/main.26908df8.css.map",
+    "main.03841aba.js.map": "/genrefy_web/static/js/main.03841aba.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.26908df8.css",
+    "static/js/main.03841aba.js"
+  ]
+}
