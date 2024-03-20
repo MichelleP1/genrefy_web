@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const request = require("request");
 const dotenv = require("dotenv");
@@ -11,10 +12,10 @@ dotenv.config();
 var spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 var spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-var spotify_redirect_uri =
-  "https://genrefy-f638afe4a30c.herokuapp.com/auth/callback";
+// var spotify_redirect_uri =
+//   "https://genrefy-f638afe4a30c.herokuapp.com/auth/callback";
 
-// var spotify_redirect_uri = "http://localhost:5000/auth/callback";
+var spotify_redirect_uri = "http://localhost:3000/auth/callback";
 
 var generateRandomString = function (length) {
   var text = "";
@@ -46,10 +47,6 @@ app.get("/auth/login", (req, res) => {
     "https://accounts.spotify.com/authorize/?" +
       auth_query_parameters.toString()
   );
-});
-
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
 });
 
 app.get("/auth/callback", (req, res) => {
@@ -85,8 +82,12 @@ app.get("/auth/token", (req, res) => {
   res.json({ access_token: access_token });
 });
 
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+});
+
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Listening at ${port}`);
 });
 
-// app.use(express.static(path.join(__dirname, "../build")));
+app.use(express.static(path.resolve(__dirname, "../client/build")));
