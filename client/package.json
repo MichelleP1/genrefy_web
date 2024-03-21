@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts build && mkdir build/genrefy_web && mv build/genrefy_web build/genrefy_web/static",
+    "build": "react-scripts build && mkdir build/genrefy_web && mv build/static build/genrefy_web/static",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server",
