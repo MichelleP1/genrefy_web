@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts build && mkdir build/genrefy_web && mv build/static build/genrefy_web/static",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server",
@@ -44,7 +44,7 @@
     "request": "^2.88.2"
   },
   "proxy": "http://localhost:5000",
-  "homepage": "/genrefy_web",
+  "homepage": "https://michellep1.github.io/genrefy_web",
   "description": "npm run server\r npm run start\r npm run build\r npm run deploy",
   "main": "format.js",
   "keywords": [],
